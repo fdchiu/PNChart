@@ -22,7 +22,7 @@
     self.rightLabel.hidden = YES;
     self.changeValueButton.hidden = YES;
     
-    if ([self.title isEqualToString:@"Line Chart"]) {
+    if ([self.title isEqualToString:@"Line Chart"] || [self.title isEqualToString:@"MultiYAxis"]) {
 
         self.titleLabel.text = @"Line Chart";
         
