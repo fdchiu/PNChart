@@ -8,10 +8,13 @@
 
 #import "PNLineChart.h"
 
-@interface PNMutiYAxisLineChart : PNLineChart
+@interface PNMultiYAxisLineChart : PNLineChart
 
 // second set of y labels
 @property (nonatomic) NSMutableArray *yChartLabels2;
+
+@property (nonatomic) NSArray *yLabels2;
+
 
 // configuration for second y axis
 @property (nonatomic) CGFloat yValueMax2;
@@ -22,6 +25,9 @@
 @property (nonatomic) CGFloat yLabelHeight2;
 @property (nonatomic) UIFont *yLabelFont2;
 @property (nonatomic) UIColor *yLabelColor2;
-@property (nonatomic, strong) NSString *yUnit;
+@property (nonatomic, strong) NSString *yUnit2;
+@property (nonatomic) BOOL showGenYLabels2;
+
+@property (nonatomic, assign ) PNLineChartAxisEndStyle chartYAxis2EndStyle;
 
 @end

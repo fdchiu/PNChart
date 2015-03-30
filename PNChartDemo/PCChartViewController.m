@@ -25,8 +25,15 @@
     if ([self.title isEqualToString:@"Line Chart"] || [self.title isEqualToString:@"MultiYAxis"]) {
 
         self.titleLabel.text = @"Line Chart";
-        
-        self.lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+    
+        if([self.title isEqualToString:@"MultiYAxis"]) {
+            self.lineChart = [[PNMultiYAxisLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+            self.lineChart.chartXAxisEndStyle = PNLineChartAxisEndStyleNone;
+            self.lineChart.chartYAxisEndStyle = PNLineChartAxisEndStyleNone;
+        }
+        else
+            self.lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+
         self.lineChart.yLabelFormat = @"%1.1f";
         self.lineChart.backgroundColor = [UIColor clearColor];
         [self.lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
@@ -34,37 +41,50 @@
         
         //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
         //Only if you needed
-        self.lineChart.yFixedValueMax = 300.0;
-        self.lineChart.yFixedValueMin = 0.0;
+        //self.lineChart.yFixedValueMax = 1.0;
+        //self.lineChart.yFixedValueMin = 0.0;
+        
+        
 
+#if true
         [self.lineChart setYLabels:@[
-            @"0 min",
-            @"50 min",
-            @"100 min",
-            @"150 min",
-            @"200 min",
-            @"250 min",
-            @"300 min",
+            @"L",
+            @"M",
+            @"H"
             ]
          ];
-        
+#endif
+        //self.lineChart.showGenYLabels = YES; // ylabel will be auto generated
         // Line Chart #1
-        NSArray * data01Array = @[@60.1, @160.1, @126.4, @0.0, @186.2, @127.2, @176.2];
+        NSArray * data01Array = @[@0.0, @0.5, @0.5, @0.0, @1.0, @1.0, @0.5];
         PNLineChartData *data01 = [PNLineChartData new];
-        data01.dataTitle = @"Alpha";
+        data01.dataTitle = @"Activity";
         data01.color = PNFreshGreen;
         data01.alpha = 0.3f;
         data01.itemCount = data01Array.count;
         data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
+        data01.lineWidth = 4.0;
         data01.getData = ^(NSUInteger index) {
             CGFloat yValue = [data01Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
         };
-        
+
+#if false
+        NSMutableArray *labels=[[NSMutableArray alloc] init];
+        for (NSNumber *number in data01Array) {
+            if([number floatValue] == 0.0)
+                [labels addObject:@"L"];
+            else if ([number floatValue]== 0.5)
+                [labels addObject:@"M"];
+            else
+                [labels addObject:@"H"];
+        }
+        [self.lineChart setYLabels: labels];
+#endif
         // Line Chart #2
-        NSArray * data02Array = @[@0.0, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
+        NSArray * data02Array = @[@1.0, @3.0, @6.0, @1.2, @4.2, @5.0, @3.5];
         PNLineChartData *data02 = [PNLineChartData new];
-        data02.dataTitle = @"Beta Beta Beta Beta";
+        data02.dataTitle = @"IOB";
         data02.color = PNTwitterColor;
         data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
@@ -74,11 +94,21 @@
             return [PNLineChartDataItem dataItemWithY:yValue];
         };
         
+        if([self.title isEqualToString:@"MultiYAxis"]) {
+            self.titleLabel.text = @"Multi-Y Axes";
+            ((PNMultiYAxisLineChart*)self.lineChart).showGenYLabels2 = YES;
+            ((PNMultiYAxisLineChart*)self.lineChart).yFixedValueMax2 = 7.0;
+            ((PNMultiYAxisLineChart*)self.lineChart).yFixedValueMin2 = 0.0;
+        }
+        
+        self.lineChart.showGenYLabels = NO;
         self.lineChart.chartData = @[data01, data02];
         [self.lineChart strokeChart];
         self.lineChart.delegate = self;
+        //self.lineChart.xUnit = @"Month";
+        self.lineChart.yUnit = @"Activity";
         
-
+        
         [self.view addSubview:self.lineChart];
 
         self.lineChart.legendStyle = PNLegendItemStyleStacked;

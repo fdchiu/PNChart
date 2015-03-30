@@ -18,6 +18,8 @@
 @property (nonatomic) PNPieChart *pieChart;
 @property (nonatomic) PNScatterChart *scatterChart;
 
+@property (nonatomic) PNMultiYAxisLineChart * multiYChart;
+
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 - (IBAction)changeValue:(id)sender;

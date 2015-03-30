@@ -173,12 +173,14 @@
         xLabelWidth = (self.frame.size.width) / [xLabels count];
     }
 
+    _xLabels = xLabels;
+
     return [self setXLabels:xLabels withWidth:xLabelWidth];
 }
 
 - (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width
 {
-    _xLabels = xLabels;
+   // _xLabels = xLabels;
     _xLabelWidth = width;
     if (_xChartLabels) {
         for (PNChartLabel * label in _xChartLabels) {
@@ -647,7 +649,7 @@
 - (void)drawRect:(CGRect)rect
 {
     if (self.isShowCoordinateAxis) {
-        CGFloat yAxisOffset = 10.f;
+        //CGFloat yAxisOffset = 10.f;
 
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         UIGraphicsPushContext(ctx);
@@ -658,23 +660,26 @@
         CGFloat yAxisHeight = _chartMargin + _chartCavanHeight;
 
         // draw coordinate axis
-        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, yAxisHeight);
+        CGContextMoveToPoint(ctx, _chartMargin + _yAxisOffset, 0);
+        CGContextAddLineToPoint(ctx, _chartMargin + _yAxisOffset, yAxisHeight);
         CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
         CGContextStrokePath(ctx);
 
         // draw y axis arrow
-        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset - 3, 6);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset + 3, 6);
-        CGContextStrokePath(ctx);
-
+        if(_chartYAxisEndStyle == PNLineChartAxisEndStyleArrow) {
+            CGContextMoveToPoint(ctx, _chartMargin + _yAxisOffset - 3, 6);
+            CGContextAddLineToPoint(ctx, _chartMargin + _yAxisOffset, 0);
+            CGContextAddLineToPoint(ctx, _chartMargin + _yAxisOffset + 3, 6);
+            CGContextStrokePath(ctx);
+        }
         // draw x axis arrow
-        CGContextMoveToPoint(ctx, xAxisWidth - 6, yAxisHeight - 3);
-        CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
-        CGContextAddLineToPoint(ctx, xAxisWidth - 6, yAxisHeight + 3);
-        CGContextStrokePath(ctx);
-
+        if(_chartXAxisEndStyle == PNLineChartAxisEndStyleArrow) {
+            CGContextMoveToPoint(ctx, xAxisWidth - 6, yAxisHeight - 3);
+            CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
+            CGContextAddLineToPoint(ctx, xAxisWidth - 6, yAxisHeight + 3);
+            CGContextStrokePath(ctx);
+        }
+        
         if (self.showLabel) {
 
             // draw x axis separator
@@ -689,7 +694,7 @@
             // draw y axis separator
             CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(_chartMargin + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
+                point = CGPointMake(_chartMargin + _yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
                 CGContextMoveToPoint(ctx, point.x, point.y);
                 CGContextAddLineToPoint(ctx, point.x + 2, point.y);
                 CGContextStrokePath(ctx);
@@ -745,6 +750,11 @@
     _showCoordinateAxis = NO;
     _axisColor = [UIColor colorWithRed:0.4f green:0.4f blue:0.4f alpha:1.f];
     _axisWidth = 1.f;
+    _yAxisOffset = 10.0;
+    
+    _chartXAxisEndStyle = PNLineChartAxisEndStyleArrow;
+    _chartYAxisEndStyle = PNLineChartAxisEndStyleArrow;
+
 }
 
 #pragma mark - tools

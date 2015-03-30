@@ -11,6 +11,11 @@
 #import "PNChartDelegate.h"
 #import "PNGenericChart.h"
 
+typedef NS_ENUM(NSUInteger, PNLineChartAxisEndStyle) {
+    PNLineChartAxisEndStyleNone = 0,
+    PNLineChartAxisEndStyleArrow = 1
+};
+
 @interface PNLineChart : PNGenericChart
 
 /**
@@ -57,6 +62,8 @@
 @property (nonatomic, getter = isShowCoordinateAxis) BOOL showCoordinateAxis;
 @property (nonatomic) UIColor *axisColor;
 @property (nonatomic) CGFloat axisWidth;
+@property (nonatomic) CGFloat yAxisOffset;
+
 
 @property (nonatomic, strong) NSString *xUnit;
 @property (nonatomic, strong) NSString *yUnit;
@@ -66,8 +73,20 @@
  */
 @property (nonatomic, strong) NSString *yLabelFormat;
 
-- (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width;
 
+/*
+ *
+ */
+
+@property (nonatomic, assign ) PNLineChartAxisEndStyle chartXAxisEndStyle;
+@property (nonatomic, assign ) PNLineChartAxisEndStyle chartYAxisEndStyle;
+
+
+- (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width;
+- (NSString*) formatYLabel:(double)value;
+- (void)setCustomStyleForYLabel:(UILabel *)label;
+- (void)setCustomStyleForXLabel:(UILabel *)label;
+- (void)drawTextInContext:(CGContextRef )ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font;
 /**
  * Update Chart Value
  */
@@ -87,4 +106,6 @@
 
 
 + (CGSize)sizeOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font;
+
+- (void)setYLabels;
 @end
