@@ -394,7 +394,7 @@
     }else{
         _yChartLabels2 = [NSMutableArray new];
     }
-    CGFloat labelX=self.frame.size.width  - self.chartMargin;
+    CGFloat labelX=self.frame.size.width  - self.chartMargin + 2.0;
     if (yStep == 0.0) {
         PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(labelX, (NSInteger)self.chartCavanHeight, (NSInteger)self.chartMargin, (NSInteger)self.yLabelHeight)];
         minLabel.text = [self formatYLabel:0.0];
@@ -436,7 +436,7 @@
 
 - (void)setYLabels2:(NSArray *)yLabels
 {
-        self.showGenYLabels = NO;
+        self.showGenYLabels2 = NO;
         _yLabelNum2 = yLabels.count - 1;
         
         CGFloat yLabelHeight;
@@ -462,7 +462,7 @@
         }
         
         NSString *labelText;
-        
+        CGFloat labelX=self.frame.size.width  - self.chartMargin+2.0;
         if (self.showLabel) {
             CGFloat yStepHeight = self.chartCavanHeight / _yLabelNum2;
             
@@ -471,8 +471,8 @@
                 
                 NSInteger y = (NSInteger)(self.chartCavanHeight - index * yStepHeight);
                 
-                PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y, (NSInteger)self.chartMargin, (NSInteger)_yLabelHeight2)];
-                [label setTextAlignment:NSTextAlignmentRight];
+                PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(labelX, y, (NSInteger)self.chartMargin, (NSInteger)_yLabelHeight2)];
+                [label setTextAlignment:NSTextAlignmentLeft];
                 label.text = labelText;
                 [self setCustomStyleForYLabel:label];
                 [self addSubview:label];
@@ -480,6 +480,7 @@
             }
         }
     }
+
 
 
 #pragma mark private methods

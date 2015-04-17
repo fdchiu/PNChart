@@ -74,6 +74,14 @@ typedef NS_ENUM(NSUInteger, PNLineChartAxisEndStyle) {
 @property (nonatomic, strong) NSString *yLabelFormat;
 
 
+
+@property (nonatomic) NSMutableArray *chartLineArray;  // Array[CAShapeLayer]
+@property (nonatomic) NSMutableArray *chartPointArray; // Array[CAShapeLayer] save the point layer
+
+@property (nonatomic) NSMutableArray *chartPath;       // Array of line path, one for each line.
+@property (nonatomic) NSMutableArray *pointPath;       // Array of point path, one for each line
+@property (nonatomic) NSMutableArray *endPointsOfPath;      // Array of start and end points of each line path, one for each line
+
 /*
  *
  */

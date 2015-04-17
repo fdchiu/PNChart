@@ -41,8 +41,8 @@
         
         //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
         //Only if you needed
-        //self.lineChart.yFixedValueMax = 1.0;
-        //self.lineChart.yFixedValueMin = 0.0;
+        self.lineChart.yFixedValueMax = 1.0;
+        self.lineChart.yFixedValueMin = 0.0;
         
         
 
@@ -99,6 +99,16 @@
             ((PNMultiYAxisLineChart*)self.lineChart).showGenYLabels2 = YES;
             ((PNMultiYAxisLineChart*)self.lineChart).yFixedValueMax2 = 7.0;
             ((PNMultiYAxisLineChart*)self.lineChart).yFixedValueMin2 = 0.0;
+           /* [((PNMultiYAxisLineChart*)self.lineChart) setYLabels2:@[
+                                         @"1",
+                                         @"2",
+                                         @"3",
+                                         @"4",
+                                         @"5",
+                                         @"6"
+                                         ]
+             ];*/
+
         }
         
         self.lineChart.showGenYLabels = NO;
